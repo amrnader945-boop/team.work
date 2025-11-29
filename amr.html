@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMR LAB - Patient Report (LIVE)</title>
+
+  <style>
+    body {
+      background: #f1f1f1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .card {
+      background: #fff;
+      width: 350px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      color: #2563eb;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    #connectBtn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: #1d4ed8;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #connectBtn:hover {
+      background: #153fa3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>AMR LAB - Patient Report</h1>
+
+    <button id="connectBtn">Connect to Arduino</button>
+
+    <br /><br />
+
+    <div>
+      <div class="section-title">Patient Information</div>
+
+      <div class="info-row"><span>ID</span><span>30401011  </span></div>
+      <div class="info-row"><span>Name</span><span>AMR</span></div>
+      <div class="info-row"><span>Age</span><span>22</span></div>
+      <div class="info-row"><span>Gender</span><span>MALE</span></div>
+      <div class="info-row"><span>Clinic</span><span>TEAM</span></div>
+      <div class="info-row"><span>Doctor</span><span>OMAR</span></div>
+      <div class="info-row"><span>Sample Date</span><span>7/4/2025</span></div>
+      <div class="info-row"><span>Phone</span><span>01009975674</span></div>
+      <div class="info-row"><span>Email</span><span>amrnader945@gmail.com</span></div>
+    </div>
+
+    <br />
+
+    <div>
+      <div class="section-title">Test Results (LIVE)</div>
+
+      <div class="info-row"><span>ABS</span><span id="absVal">--</span></div>
+      <div class="info-row"><span>CONC</span><span id="concVal">--</span></div>
+      <div class="info-row"><span>TRANS</span><span id="transVal">--</span></div>
+    </div>
+
+  </div>
+
+  <script>
+    let port;
+    let reader;
+
+    document.getElementById("connectBtn").addEventListener("click", async () => {
+      try {
+        port = await navigator.serial.requestPort();
+        await port.open({ baudRate: 9600 });
+
+        const decoder = new TextDecoderStream();
+        const inputDone = port.readable.pipeTo(decoder.writable);
+        const inputStream = decoder.readable;
+        reader = inputStream.getReader();
+
+        readLoop();
+      } catch (err) {
+        alert("Error connecting to Arduino: " + err);
+      }
+    });
+
+    async function readLoop() {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          break;
+        }
+        if (value) {
+          parseSerial(value.trim());
+        }
+      }
+    }
+
+    function parseSerial(line) {
+      // Example lines:
+      // ABS:13
+      // CONC:155
+      // TRANS:22
+
+      if (line.startsWith("ABS:")) {
+        document.getElementById("absVal").textContent = line.split(":")[1];
+      }
+      else if (line.startsWith("CONC:")) {
+        document.getElementById("concVal").textContent = line.split(":")[1];
+      }
+      else if (line.startsWith("TRANS:")) {
+        document.getElementById("transVal").textContent = line.split(":")[1];
+      }
+    }
+  </script>
+
+</body>
+</html>
