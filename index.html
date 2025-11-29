@@ -1,149 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AMR LAB - Patient Report (LIVE)</title>
+<meta charset="UTF-8">
+<title>AMR LAB - Patient Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
+<style>
     body {
-      background: #f1f1f1;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 30px;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: url("https://images.pexels.com/photos/5863393/pexels-photo-5863393.jpeg") no-repeat center center/cover;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .card {
-      background: #fff;
-      width: 350px;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 360px;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(14px);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        color: white;
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(30px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    .logo {
+        width: 75px;
+        height: 75px;
+        display: block;
+        margin: 0 auto 10px auto;
+        border-radius: 50%;
+        border: 3px solid white;
+        object-fit: cover;
     }
 
     h1 {
-      text-align: center;
-      color: #1d4ed8;
-      font-size: 20px;
-      margin-bottom: 20px;
+        text-align: center;
+        margin-bottom: 12px;
+        font-size: 22px;
+        letter-spacing: 1px;
     }
 
-    .section-title {
-      color: #2563eb;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 7px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding-bottom: 5px;
+        font-size: 15px;
     }
 
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      font-size: 14px;
-      border-bottom: 1px solid #eee;
+    /* الزرار */
+    .btn {
+        width: 150px;
+        padding: 11px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 15px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.25s;
+        font-weight: bold;
     }
 
-    #connectBtn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      background: #1d4ed8;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    .whatsapp-btn {
+        background: #25D366;
     }
 
-    #connectBtn:hover {
-      background: #153fa3;
+    .sms-btn {
+        background: #0ea5e9;
     }
-  </style>
+
+    .btn:hover {
+        transform: scale(1.06);
+        opacity: 0.9;
+    }
+
+    /* ثابتين يمين تحت */
+    .floating-buttons {
+        position: fixed;
+        right: 18px;
+        bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        z-index: 100;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 5px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 12px;
+        opacity: 0.7;
+    }
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h1>AMR LAB - Patient Report</h1>
+<div class="card">
+    <img class="logo" src="https://i.imgur.com/0Z8Fj1w.png">
 
-    <button id="connectBtn">Connect to Arduino</button>
+    <h1>AMR LAB Report</h1>
 
-    <br /><br />
+    <div class="row"><span>ID</span><span id="id">835650</span></div>
+    <div class="row"><span>Name</span><span id="name">Amr Nader</span></div>
+    <div class="row"><span>Age</span><span>21</span></div>
+    <div class="row"><span>Gender</span><span>M</span></div>
+    <div class="row"><span>Clinic</span><span>Nemo Lab</span></div>
+    <div class="row"><span>Doctor</span><span>Dr. Omar</span></div>
+    <div class="row"><span>Phone</span><span id="phone">+201009975674</span></div>
+    <div class="row"><span>Email</span><span id="email">amrnader945@gmail.com</span></div>
 
-    <div>
-      <div class="section-title">Patient Information</div>
+    <br>
 
-      <div class="info-row"><span>ID</span><span>30401011  </span></div>
-      <div class="info-row"><span>Name</span><span>AMR</span></div>
-      <div class="info-row"><span>Age</span><span>22</span></div>
-      <div class="info-row"><span>Gender</span><span>MALE</span></div>
-      <div class="info-row"><span>Clinic</span><span>TEAM</span></div>
-      <div class="info-row"><span>Doctor</span><span>OMAR</span></div>
-      <div class="info-row"><span>Sample Date</span><span>7/4/2025</span></div>
-      <div class="info-row"><span>Phone</span><span>01009975674</span></div>
-      <div class="info-row"><span>Email</span><span>amrnader945@gmail.com</span></div>
-    </div>
+    <h3 style="text-align:center;margin-bottom:8px;">Test Results</h3>
 
-    <br />
+    <div class="row"><span>ABS</span><span id="abs">13</span></div>
+    <div class="row"><span>CONC</span><span id="conc">155</span></div>
+    <div class="row"><span>TRANS</span><span id="trans">22</span></div>
+</div>
 
-    <div>
-      <div class="section-title">Test Results (LIVE)</div>
+<!-- زرار الواتساب و SMS -->
+<div class="floating-buttons">
 
-      <div class="info-row"><span>ABS</span><span id="absVal">--</span></div>
-      <div class="info-row"><span>CONC</span><span id="concVal">--</span></div>
-      <div class="info-row"><span>TRANS</span><span id="transVal">--</span></div>
-    </div>
+    <button class="btn whatsapp-btn" id="sendWhatsApp">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20">
+        WhatsApp
+    </button>
 
-  </div>
+    <button class="btn sms-btn" id="sendSMS">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="20">
+        SMS
+    </button>
 
-  <script>
-    let port;
-    let reader;
+</div>
 
-    document.getElementById("connectBtn").addEventListener("click", async () => {
-      try {
-        port = await navigator.serial.requestPort();
-        await port.open({ baudRate: 9600 });
+<footer>© 2025 AMR LAB - All Rights Reserved</footer>
 
-        const decoder = new TextDecoderStream();
-        const inputDone = port.readable.pipeTo(decoder.writable);
-        const inputStream = decoder.readable;
-        reader = inputStream.getReader();
+<script>
+const siteLink = "https://amrnader945-boop.github.io/team-project/";
 
-        readLoop();
-      } catch (err) {
-        alert("Error connecting to Arduino: " + err);
-      }
+// --------------------
+// زر واتساب
+// --------------------
+document.getElementById("sendWhatsApp").onclick = () => {
+    const phone = document.getElementById("phone").innerText.trim();
+
+    window.open(
+        `https://wa.me/${phone}?text=Your%20lab%20results%20are%20ready.%0A${siteLink}`,
+        "_blank"
+    );
+};
+
+// --------------------
+// زر SMS
+// --------------------
+document.getElementById("sendSMS").onclick = async () => {
+    const name = document.getElementById("name").innerText.trim();
+    const phone = document.getElementById("phone").innerText.trim();
+    const id = document.getElementById("id").innerText.trim();
+
+    await fetch("/sendLinkSMS", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ name, phone, id, link: siteLink })
     });
 
-    async function readLoop() {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          break;
-        }
-        if (value) {
-          parseSerial(value.trim());
-        }
-      }
-    }
-
-    function parseSerial(line) {
-      // Example lines:
-      // ABS:13
-      // CONC:155
-      // TRANS:22
-
-      if (line.startsWith("ABS:")) {
-        document.getElementById("absVal").textContent = line.split(":")[1];
-      }
-      else if (line.startsWith("CONC:")) {
-        document.getElementById("concVal").textContent = line.split(":")[1];
-      }
-      else if (line.startsWith("TRANS:")) {
-        document.getElementById("transVal").textContent = line.split(":")[1];
-      }
-    }
-  </script>
+    alert("✔ SMS Sent Successfully!");
+};
+</script>
 
 </body>
 </html>
